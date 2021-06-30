@@ -17,7 +17,7 @@ mongoose.connect('mongodb+srv://hbj:1915@boilerplate.1ncyp.mongodb.net/myFirstDa
 
 // index 에서 해당 문자열 출력
 app.get('/', (req, res) => {
-  res.send('Hello World! 안녕하세요~~~ 새로고침 테스트')
+  res.send('Hello World! 안녕하세요~~~ 새로고침 테스트 노드몬~')
 });
 
 app.post('/register', (req, res) => {
