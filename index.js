@@ -2,7 +2,8 @@ const express = require('express'); //  express module 을 가져온다
 const app = express();
 const port = 5000;
 const bodyParser = require('body-parser');
-const { User } = require("./models/User");
+const { User } = require("./models/User"); 
+const config = require('./config/key');
 
 //application/x-www-form-urlencoded 를 분석해서 가져옴
 app.use(bodyParser.urlencoded({extended : true}));
@@ -11,7 +12,7 @@ app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://hbj:1915@boilerplate.1ncyp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false})
+mongoose.connect(config.mongoURI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false})
     .then(() => console.log('MongoDB conneted..')) // 잘 연결됐는지 확인
     .catch(err => console.log(err));
 
