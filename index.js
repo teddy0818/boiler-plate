@@ -38,6 +38,37 @@ app.post('/register', (req, res) => {
     }) 
 })
 
+//Login route
+app.post('/login', (req, res) => {
+
+    // 1. 요청된 email을 DB에서 있는지 찾는다
+    User.findOne({email : req.body.email}, (err, user) => {
+        if(!user) {
+            return res.json({
+                loginSuccess : false,
+                message : "해당 되는 이메일을 찾을 수 없습니다"
+            })
+        }
+
+        // 2. email 이 있다면, 비밀번호를 확인
+        user.comparePassword(req.body.password, (err, isMatch) => {
+            if(!isMatch)
+                return res.json({
+                    loginSuccess : false,
+                    message : "비밀번호가 틀렸습니다"
+                })
+
+
+            // 3. 비밀번호까지 맞다면 Token을 생성하기
+            
+        })
+
+
+    })
+
+    
+})
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
   }); // 5000 포트로 접속하면 console.log가 뜬다

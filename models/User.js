@@ -53,9 +53,20 @@ userSchema.pre('save', function (next) {
             });
 
         });
+    } else { 
+        // next가 있어야 pre 함수에서 빠져나올 수 있다
+        next();
     }
-
 });
+
+// comparePassword 이름은 마음대로 해도 됨~
+userSchema.methods.comparePassword = function(plainPassword, cb) {
+    // 암호된 비밀번호를 복호화 할순없고, 입력한 비밀번호를 복호화해서 비교해야한다
+    bcrypt.compare(plainPassword, this.password, function(err, isMatch) {
+        if (err) return cb(err);
+        cb(null, isMatch); // isMatch : 만약 비밀번호가 맞다면 true 반환
+    })
+};
 
 
 // 스키마를 모델로 감싸줌
