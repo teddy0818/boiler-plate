@@ -2,6 +2,7 @@ const express = require('express'); //  express module 을 가져온다
 const app = express();
 const port = 5000;
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const { User } = require("./models/User"); 
 const config = require('./config/key');
 
@@ -10,6 +11,7 @@ app.use(bodyParser.urlencoded({extended : true}));
 
 //application/json 를 분석해서 가져옴
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 const mongoose = require('mongoose');
 mongoose.connect(config.mongoURI , {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false})
@@ -32,7 +34,7 @@ app.post('/register', (req, res) => {
 
     user.save((err, userInfo) => { //req.body 정보들이 user 모델에 저장  
         if (err) return res.json({success : false, err})
-        return res.status(200).json({ // status : 회원가입 성공 했을 때
+        return res.status(200).json({ // status(200) : 회원가입 성공 했을 때
             success : true
         })
     }) 
@@ -58,9 +60,15 @@ app.post('/login', (req, res) => {
                     message : "비밀번호가 틀렸습니다"
                 })
 
-
             // 3. 비밀번호까지 맞다면 Token을 생성하기
-            
+            user.generateToken((err, user) => {
+                if(err) return res.status(400).send(err);
+
+                // 토큰을 저장한다. 쿠키, 로컬스토리지
+                res.cookie("x_auth", user.token) // x_auth 에 user.token 저장 
+                .status(200) // 로그인 성공
+                .json( {loginSuccess : true, userId : user._id})
+            })
         })
 
 
