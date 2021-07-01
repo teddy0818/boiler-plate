@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 
 const mongoose = require('mongoose');
-mongoose.connect(config.mongoURI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false})
+mongoose.connect(config.mongoURI , {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false})
     .then(() => console.log('MongoDB conneted..')) // 잘 연결됐는지 확인
     .catch(err => console.log(err));
 
@@ -21,11 +21,14 @@ app.get('/', (req, res) => {
   res.send('Hello World! 안녕하세요~~~ 새로고침 테스트 노드몬~')
 });
 
+// Register route
 app.post('/register', (req, res) => {
 
     //회원가입에 필요한 정보를 client 에서 받아와서 DB에 넣어준다
 
-    const user = new User(req.body); // bodyParser가 있어서 이렇게 넣을 수 있음 
+    // bodyParser가 있어서 이렇게 넣을 수 있음 
+    // 모든 정보들을 모델에 넣어줌
+    const user = new User(req.body); 
 
     user.save((err, userInfo) => { //req.body 정보들이 user 모델에 저장  
         if (err) return res.json({success : false, err})
