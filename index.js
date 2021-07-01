@@ -74,8 +74,8 @@ app.post('/api/users/login', (req, res) => {
     })
 })
 
-api.get('/api/users/auth', auth ,(req, res) => {
-
+app.get('/api/users/auth', auth, (req, res) => {
+    console.log('헤헤')
     //여기까지 미들웨어를 통과했다는 얘기는 Authentication 이 true 라는 말
     res.status(200).json({
         // auth에서 미리 req에 저장해놓음
@@ -88,6 +88,17 @@ api.get('/api/users/auth', auth ,(req, res) => {
         role : req.user.role,
         image : req.user.image
     })
+})
+
+app.get('/api/users/logout', auth, (req, res) => {
+    // findOneAndUpdate : 유저를 찾아서 update
+    User.findOneAndUpdate({_id : req.user._id}, { token : ''}, (err, user) => {
+        if(err) return res.json({ success: false, err })
+        return res.status(200).send({
+            success : true
+        })
+    })
+
 })
 
 app.listen(port,  () => {
