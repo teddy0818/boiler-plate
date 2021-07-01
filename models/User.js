@@ -94,6 +94,7 @@ userSchema.statics.findbyToken = function(token, cb) {
 
     //토큰을 decode (복호화) 한다
     jwt.verify(token, 'secretToken', function(err, decoded) {
+        // decode 된 id가 DB에 있는지 검색 !
         user.findeOne({"_id" : decoded, "token" : token}, function(err, user) {
             if(err) return cb(err)
             cb(null, user);
