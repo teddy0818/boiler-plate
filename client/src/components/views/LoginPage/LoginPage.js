@@ -1,4 +1,8 @@
-import axios from 'axios'
+//로그인 과정 : 1. html 에서 입력값을 받아서 state(Email, Password)에 값을 저장
+// 2. user_action - loginUser() : 입력값을 받아와서 backend 와 통신해 값을 받아옴
+// 3. user_reducer (dispatch 함수) : user_action 리턴값을 인자로 받아서 값을 리턴!
+
+// import axios from 'axios'
 import React, {useState} from 'react'
 import { useDispatch } from 'react-redux';
 import {loginUser} from '../../../_actions/user_action'
@@ -26,6 +30,7 @@ function LoginPage(props) {
         event.preventDefault();
 
         console.log('email', Email);
+        console.log('email', typeof(Email));
         console.log('password', Password);
 
         let body = {
