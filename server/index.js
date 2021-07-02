@@ -101,6 +101,8 @@ app.get('/api/users/logout', auth, (req, res) => {
 
 })
 
+app.get('/api/hello', (req, res) => res.send('axios 테스트!!!'))
+
 app.listen(port,  () => {
     console.log(`Example app listening at http://localhost:${port}`)
   }); // 5000 포트로 접속하면 console.log가 뜬다
