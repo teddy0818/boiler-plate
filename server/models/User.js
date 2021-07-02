@@ -89,18 +89,32 @@ userSchema.methods.generateToken = function(cb) {
 
 }
 
-userSchema.statics.findbyToken = function(token, cb) {
-    let user = this;
+// userSchema.statics.findByToken = function(token, cb) {
+//     let user = this;
 
-    //토큰을 decode (복호화) 한다
-    jwt.verify(token, 'secretToken', function(err, decoded) {
-        // decode 된 id가 DB에 있는지 검색 !
-        // 로그아웃은 db에서 token을 없에주면 된다
-        user.findeOne({"_id" : decoded, "token" : token}, function(err, user) {
-            if(err) return cb(err)
-            cb(null, user);
+//     //토큰을 decode (복호화) 한다
+//     jwt.verify(token, 'secretToken', function(err, decoded) {
+//         // decode 된 id가 DB에 있는지 검색 !
+//         // 로그아웃은 db에서 token을 없에주면 된다
+//         user.findeOne({"_id" : decoded, "token" : token}, function(err, user) {
+//             if(err) return cb(err)
+//             cb(null, user);
+//         })
+//       });
+// }
+
+userSchema.statics.findByToken = function(token, cb) {
+    var user = this;
+    // user._id + ''  = token
+    //토큰을 decode 한다. 
+    jwt.verify(token, 'secretToken', function (err, decoded) {
+        //유저 아이디를 이용해서 유저를 찾은 다음에 
+        //클라이언트에서 가져온 token과 DB에 보관된 토큰이 일치하는지 확인
+        user.findOne({ "_id": decoded, "token": token }, function (err, user) {
+            if (err) return cb(err);
+            cb(null, user)
         })
-      });
+    })
 }
 
 // 스키마를 모델로 감싸줌

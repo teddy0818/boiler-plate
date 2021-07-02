@@ -91,15 +91,16 @@ app.get('/api/users/auth', auth, (req, res) => {
 })
 
 app.get('/api/users/logout', auth, (req, res) => {
-    // findOneAndUpdate : 유저를 찾아서 update
-    User.findOneAndUpdate({_id : req.user._id}, { token : ''}, (err, user) => {
-        if(err) return res.json({ success: false, err })
+    // console.log('req.user', req.user)
+    User.findOneAndUpdate({ _id: req.user._id },
+      { token: "" }
+      , (err, user) => {
+        if (err) return res.json({ success: false, err });
         return res.status(200).send({
-            success : true
+          success: true
         })
-    })
-
-})
+      })
+  })
 
 app.get('/api/hello', (req, res) => res.send('axios 테스트!!!'))
 
