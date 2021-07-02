@@ -42,8 +42,10 @@ export default function (SpecificComponent, option, adminRoute = null) {
             
         }, [])
 
+        // HOC에서  Route가 제공한 props를 그대로 리턴해주면 
+        // withRouter()를 각 페이지 컴포넌트에 적용할 필요가 없음
         return ( 
-            <SpecificComponent />
+            <SpecificComponent {...props} />
         )
     }
 
