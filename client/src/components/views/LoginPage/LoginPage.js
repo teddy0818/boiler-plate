@@ -46,8 +46,7 @@ function LoginPage(props) {
                 } else {
                     alert('error!')
                 }
-            })
-        
+            })    
     }
 
 
@@ -72,4 +71,4 @@ function LoginPage(props) {
     )
 }
 
-export default withRouter(LoginPage)
+export default withRouter(LoginPage) 

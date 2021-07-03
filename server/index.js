@@ -75,7 +75,7 @@ app.post('/api/users/login', (req, res) => {
 })
 
 app.get('/api/users/auth', auth, (req, res) => {
-    console.log('헤헤')
+
     //여기까지 미들웨어를 통과했다는 얘기는 Authentication 이 true 라는 말
     res.status(200).json({
         // auth에서 미리 req에 저장해놓음
